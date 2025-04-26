@@ -4,10 +4,10 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 
 data class Produto(
-    var nome: String,
-    var descricao: String,
-    var preco: BigDecimal,
-    var categoria: Categoria,
+    val nome: String,
+    val descricao: String,
+    val preco: BigDecimal,
+    val categoria: Categoria,
     var id: Int?
 ) {
     init {

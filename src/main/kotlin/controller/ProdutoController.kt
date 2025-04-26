@@ -5,20 +5,11 @@ import domain.entities.Produto
 import domain.services.ProdutoService
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
-
 import rest.request.ProdutoRequest
 import rest.request.toProduto
 
 @ApplicationScoped
-class ProdutoController() : ControllerBase<ProdutoService> {
-
-    override lateinit var service: ProdutoService
-
-    @Inject
-    constructor(service: ProdutoService) : this() {
-        this.service = service
-    }
-
+class ProdutoController @Inject constructor(override var service: ProdutoService) : ControllerBase<ProdutoService> {
 
     fun cadastrarProduto(produto: ProdutoRequest) {
         service.cadastrarProduto(produto.toProduto())

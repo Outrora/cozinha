@@ -33,7 +33,9 @@ class ProdutoRepository : PanacheRepository<ProdutoDTO> {
     }
 
     fun listarProdutos(): List<Produto> {
-        return findAll().list().map { it.toProduto() }
+        return findAll()
+            .list()
+            .map { it.toProduto() }
     }
 
     fun buscarProdutoPorId(id: Int): Produto? {

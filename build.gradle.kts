@@ -33,6 +33,7 @@ dependencies {
     testImplementation("io.mockk:mockk:1.14.0")
     testImplementation("io.strikt:strikt-core:0.34.0")
     testImplementation("io.quarkus:quarkus-jdbc-h2")
+    testImplementation("io.quarkus:quarkus-flyway")
 
 }
 

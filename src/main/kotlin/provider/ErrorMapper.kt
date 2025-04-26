@@ -17,11 +17,11 @@ class ErrorMapper : ExceptionMapper<Exception> {
 
         return when (exception) {
             is ProdutoNotFoundException -> {
-                criarResponse(Status.NOT_FOUND, exception.message ?: "Produto não encontrado")
+                criarResponse(Status.NOT_FOUND, exception.message!!)
             }
 
             is ProdutoInvalidoException -> {
-                criarResponse(Status.BAD_REQUEST, exception.message ?: "Produto inválido")
+                criarResponse(Status.BAD_REQUEST, exception.message!!)
             }
 
             else -> criarResponse(Status.INTERNAL_SERVER_ERROR, exception?.message ?: "Erro interno do servidor")
