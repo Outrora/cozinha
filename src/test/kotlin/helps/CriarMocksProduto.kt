@@ -4,7 +4,7 @@ import domain.entities.Categoria
 import domain.entities.Produto
 import rest.request.ProdutoRequest
 
-object CriarMocks {
+object CriarMocksProduto {
 
     private val nomes = listOf(
         "X-Burger", "Pizza", "Batata Frita",
@@ -22,7 +22,7 @@ object CriarMocks {
             nome = nomes.random(),
             descricao = descricoes.random(),
             preco = (1..1000).random().toBigDecimal(),
-            categoria = Categoria.values().random()
+            categoria = Categoria.entries.toTypedArray().random()
         )
     }
 
@@ -52,5 +52,7 @@ object CriarMocks {
     fun criarListaComProdutos(): List<Produto> {
         return List((1..15).random()) { criarProdutoComId() }
     }
+
+
 }
 

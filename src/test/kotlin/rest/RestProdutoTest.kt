@@ -1,7 +1,7 @@
 package rest
 
 import controller.ProdutoController
-import helps.CriarMocks
+import helps.CriarMocksProduto
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -32,7 +32,7 @@ class RestProdutoTest {
 
     @Test
     fun `Deve listar produtos Corretamente`() {
-        val lista = CriarMocks.criarListaComProdutos();
+        val lista = CriarMocksProduto.criarListaComProdutos();
         every { produtoController.listarProdutos() } returns lista
 
         val resultado = rest.listarProdutos()
@@ -47,7 +47,7 @@ class RestProdutoTest {
 
     @Test
     fun `Deve cadastrar produto Corretamente`() {
-        val produto = CriarMocks.criarProdutoRequest()
+        val produto = CriarMocksProduto.criarProdutoRequest()
         justRun { produtoController.cadastrarProduto(produto) }
 
         val resultado = rest.criarProduto(produto)
@@ -67,7 +67,7 @@ class RestProdutoTest {
 
     @Test
     fun `Deve editar produto Corretamente`() {
-        val produto = CriarMocks.criarProdutoRequest()
+        val produto = CriarMocksProduto.criarProdutoRequest()
         val id = 1
         justRun { produtoController.editarProduto(produto, id) }
 
@@ -98,7 +98,7 @@ class RestProdutoTest {
 
     @Test
     fun `Deve buscar produto por id Corretamente`() {
-        val produto = CriarMocks.criarProdutoComId()
+        val produto = CriarMocksProduto.criarProdutoComId()
         val id = 1
         every { produtoController.buscarProdutoPorId(id) } returns produto
 
@@ -113,7 +113,7 @@ class RestProdutoTest {
 
     @Test
     fun `Deve buscar produto por ids Corretamente`() {
-        val produtos = CriarMocks.criarListaComProdutos()
+        val produtos = CriarMocksProduto.criarListaComProdutos()
         val ids = produtos.map { it.id!! }.toSet()
         every { produtoController.buscarProdutoPorIds(ids) } returns produtos
 

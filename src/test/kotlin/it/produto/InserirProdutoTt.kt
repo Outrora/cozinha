@@ -1,6 +1,6 @@
 package it.produto
 
-import helps.CriarMocks
+import helps.CriarMocksProduto
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
@@ -12,7 +12,7 @@ class InserirProdutoTt {
 
     @Test
     fun `Deve Cadastrar Produto Corretamente`() {
-        val produto = CriarMocks.criarProdutoRequest()
+        val produto = CriarMocksProduto.criarProdutoRequest()
 
         given()
             .contentType(ContentType.JSON)
@@ -25,7 +25,7 @@ class InserirProdutoTt {
 
     @Test
     fun `Deve Retornar 400 Quando Produto Invalido`() {
-        val produto = CriarMocks.criarProdutoRequest().copy(preco = BigDecimal.valueOf(-1.0))
+        val produto = CriarMocksProduto.criarProdutoRequest().copy(preco = BigDecimal.valueOf(-1.0))
 
 
         given()

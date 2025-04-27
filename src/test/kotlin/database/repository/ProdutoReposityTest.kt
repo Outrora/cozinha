@@ -4,9 +4,9 @@ import database.dto.ProdutoDTO
 import domain.entities.Produto
 import exception.ProdutoNotFoundException
 import extensoras.toDTO
-import helps.CriarMocks.criarListaComProdutos
-import helps.CriarMocks.criarProduto
-import helps.CriarMocks.criarProdutoComId
+import helps.CriarMocksProduto.criarListaComProdutos
+import helps.CriarMocksProduto.criarProduto
+import helps.CriarMocksProduto.criarProdutoComId
 import io.mockk.*
 import io.mockk.impl.annotations.SpyK
 import io.mockk.junit5.MockKExtension

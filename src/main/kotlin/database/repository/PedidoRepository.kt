@@ -26,8 +26,6 @@ class PedidoRepository : PanacheRepository<PedidoDTO> {
                 INSERT INTO pedido_produto
                 (quantidade, produto_id, pedido_id)
                 VALUES (:quantidade, :produto, :pedido)
-                ON CONFLICT (produto_id, pedido_id) DO UPDATE
-                SET quantidade = EXCLUDED.quantidade
                 """
             .trimIndent()
 

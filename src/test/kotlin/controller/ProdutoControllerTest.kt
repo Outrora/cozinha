@@ -3,9 +3,9 @@ import domain.entities.Produto
 import domain.services.ProdutoService
 import exception.ProdutoInvalidoException
 import exception.ProdutoNotFoundException
-import helps.CriarMocks.criarListaComProdutos
-import helps.CriarMocks.criarProduto
-import helps.CriarMocks.criarProdutoRequest
+import helps.CriarMocksProduto.criarListaComProdutos
+import helps.CriarMocksProduto.criarProduto
+import helps.CriarMocksProduto.criarProdutoRequest
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK

@@ -10,12 +10,13 @@ class DeletarProdutoIt {
 
     @Test
     fun `Deve Deletar Produto Corretamente`() {
-        
+
         given()
             .contentType(ContentType.JSON)
             .`when`()
-            .delete("/produto/1")
+            .delete("/produto/4")
             .then()
+            .log().all()
             .statusCode(204)
     }
 }

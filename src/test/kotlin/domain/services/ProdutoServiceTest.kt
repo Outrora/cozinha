@@ -4,10 +4,10 @@ import database.repository.ProdutoRepository
 import domain.entities.Categoria
 import domain.entities.Produto
 import exception.ProdutoInvalidoException
-import helps.CriarMocks.criarListaComProdutos
-import helps.CriarMocks.criarProduto
-import helps.CriarMocks.criarProdutoComId
-import helps.CriarMocks.criarTextoAleatorio
+import helps.CriarMocksProduto.criarListaComProdutos
+import helps.CriarMocksProduto.criarProduto
+import helps.CriarMocksProduto.criarProdutoComId
+import helps.CriarMocksProduto.criarTextoAleatorio
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK

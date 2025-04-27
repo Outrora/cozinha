@@ -19,21 +19,21 @@ class RestFila @Inject constructor(val controller: FilaController) {
     @Path("/atual")
     @Description("Pega fila atual")
     fun filaAtual(): Fila {
-        return controller.FilaAtual()
+        return controller.filaAtual()
     }
 
     @GET
     @Path("/preparacao")
     @Description("Pega fila atual em estado de preparacao")
     fun filaAtualPreparacao(): Fila {
-        return controller.FilaAtualEmPreparacao()
+        return controller.filaAtualEmPreparacao()
     }
 
     @POST
     @Path("/")
     @Description("Pega fila pelo dia")
     fun filaAtualDia(data: String): Fila {
-        return controller.FilaAtualDia(data)
+        return controller.filaAtualDia(data)
     }
 
 

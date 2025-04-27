@@ -9,15 +9,15 @@ import jakarta.inject.Inject
 @RequestScoped
 class FilaController @Inject constructor(var service: FilaService) {
 
-    fun FilaAtual(): Fila {
+    fun filaAtual(): Fila {
         return service.listarFilaHoje();
     }
 
-    fun FilaAtualDia(data: String): Fila {
+    fun filaAtualDia(data: String): Fila {
         return service.listarFilaPorDia(data.paraData());
     }
 
-    fun FilaAtualEmPreparacao(): Fila {
+    fun filaAtualEmPreparacao(): Fila {
         return service.listarFilaEmPreparacao();
     }
 
