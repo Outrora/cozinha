@@ -10,12 +10,14 @@ repositories {
     mavenLocal()
 }
 
+val cucumberVersion = "7.22.1"
 val quarkusPlatformGroupId = project.findProperty("quarkusPlatformGroupId") as? String ?: "io.quarkus.platform"
 val quarkusPlatformArtifactId = project.findProperty("quarkusPlatformArtifactId") as? String ?: "quarkus-bom"
 val quarkusPlatformVersion =
     project.findProperty("quarkusPlatformVersion") as? String ?: "0.0.0-SnapShot" // versão exemplo
 
 dependencies {
+
     implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
     implementation("io.quarkus:quarkus-rest")
     implementation("io.quarkus:quarkus-rest-jackson")
@@ -37,6 +39,11 @@ dependencies {
     testImplementation("io.quarkus:quarkus-jdbc-h2")
     testImplementation("io.quarkus:quarkus-flyway")
     testImplementation("io.smallrye.reactive:smallrye-reactive-messaging-in-memory")
+    // Cucumber
+    testImplementation("io.cucumber:cucumber-java:$cucumberVersion")
+    testImplementation("io.quarkiverse.cucumber:quarkus-cucumber:1.3.0")
+
+
 
 }
 
@@ -59,7 +66,6 @@ jacoco {
 tasks.withType<Test> {
     systemProperty("java.util.logging.manager", "org.jboss.logmanager.LogManager")
     systemProperty("quarkus.test.profile", "test")
-    useJUnitPlatform()
 }
 
 tasks.test {
@@ -73,9 +79,20 @@ tasks.jacocoTestReport {
         html.required.set(true)
         html.outputLocation.set(layout.buildDirectory.dir("reports/jacoco"))
     }
+    classDirectories.setFrom(
+        fileTree("${buildDir}/classes/kotlin/main") {
+            exclude(
+                "**/dto/**",       // exemplo: excluir DTOs
+                "**/config/**",
+                "**/*\$*",
+                "**/repository/**",      // exclui todas as classes de repositório
+                "**/*Repository*",       // exclui classes que contenham Repository no nome
+                "**/PanacheRepository*"
+            )
+        }
+    )
     sourceDirectories.setFrom(files("src/main/kotlin"))
-    classDirectories.setFrom(fileTree("build/classes/main/kotlin"))
-    executionData.setFrom(file("$buildDir/jacoco/test.exec"))
+    executionData.setFrom(fileTree(buildDir).include("jacoco/test.exec"))
 }
 
 

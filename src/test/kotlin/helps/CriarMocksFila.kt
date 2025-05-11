@@ -95,7 +95,7 @@ object CriarMocksFila {
         { PedidoProdutoRequest((1..10).random(), (1..10).random()) }
 
         return PedidoRequest(
-            (1..10).random().toString(),
+            (100..1000).random().toString(),
             (1..1000).random(),
             pedidoProdutos
         )

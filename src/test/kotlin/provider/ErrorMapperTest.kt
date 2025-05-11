@@ -1,5 +1,6 @@
 package provider
 
+import exception.ErroValidacao
 import exception.ProdutoInvalidoException
 import exception.ProdutoNotFoundException
 import jakarta.ws.rs.core.Response
@@ -75,6 +76,72 @@ class ErrorMapperTest {
             .and {
                 get { status }.isEqualTo(400)
                 get { message }.isEqualTo("Produto inválido")
+            }
+    }
+
+    @Test
+    fun `Deve retornar erro 400 quando ErroValidacao`() {
+        val errorMapper = ErrorMapper()
+        val exception = ErroValidacao("Produto inválido")
+
+        val response = errorMapper.toResponse(exception);
+
+        expectThat(response)
+            .isNotNull()
+            .isA<Response>()
+
+        expectThat(response.status)
+            .isEqualTo(400)
+
+        expectThat(response.entity)
+            .isA<ApiResponse>()
+            .and {
+                get { status }.isEqualTo(400)
+                get { message }.isEqualTo("Produto inválido")
+            }
+    }
+
+    @Test
+    fun `Deve retornar erro 500 quando erro qualquer sem mensagem`() {
+        val errorMapper = ErrorMapper()
+        val exception = Exception()
+
+        val response = errorMapper.toResponse(exception);
+
+        expectThat(response)
+            .isNotNull()
+            .isA<Response>()
+
+        expectThat(response.status)
+            .isEqualTo(500)
+
+        expectThat(response.entity)
+            .isA<ApiResponse>()
+            .and {
+                get { status }.isEqualTo(500)
+                get { message }.isEqualTo("Erro interno do servidor")
+            }
+    }
+
+    @Test
+    fun `Deve retornar erro 400 quando erro qualquer com mensagem`() {
+        val errorMapper = ErrorMapper()
+        val exception = ErroValidacao()
+
+        val response = errorMapper.toResponse(exception);
+
+        expectThat(response)
+            .isNotNull()
+            .isA<Response>()
+
+        expectThat(response.status)
+            .isEqualTo(400)
+
+        expectThat(response.entity)
+            .isA<ApiResponse>()
+            .and {
+                get { status }.isEqualTo(400)
+                get { message }.isEqualTo("Erro de validação")
             }
     }
 

@@ -12,7 +12,7 @@ enum class EstadoPedido(
     PAGAMENTO_RECUSADO(false, listOf(PAGAMENTO_APROVADO, CANCELADO)),
     PEDIDO_CADASTRADO(false, listOf(PAGAMENTO_APROVADO, PAGAMENTO_RECUSADO));
 
-    fun podeTransitarPara(novoEstado: EstadoPedido?): Boolean {
+    fun podeTransitarPara(novoEstado: EstadoPedido): Boolean {
         return proximosEstados.contains(novoEstado)
     }
 

@@ -7,7 +7,7 @@ import jakarta.enterprise.context.RequestScoped
 import jakarta.inject.Inject
 
 @RequestScoped
-class FilaController @Inject constructor(var service: FilaService) {
+class FilaController @Inject constructor(private var service: FilaService) {
 
     fun filaAtual(): Fila {
         return service.listarFilaHoje();

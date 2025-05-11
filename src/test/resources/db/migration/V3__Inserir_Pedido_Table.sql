@@ -16,7 +16,7 @@ CREATE TABLE pedido_produto (
 
 
 INSERT INTO pedido (id, codigocliente, datacriacao, estadopedido)
-VALUES ('1', 1, CURRENT_TIMESTAMP, 'PEDIDO_CADASTRADO');
+VALUES ('1', 1, CURRENT_TIMESTAMP, 'EM_PREPARACAO');
 
 INSERT INTO pedido (id, codigocliente, datacriacao, estadopedido)
 VALUES ('2', 1, CURRENT_TIMESTAMP, 'PAGAMENTO_APROVADO');

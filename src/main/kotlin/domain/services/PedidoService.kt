@@ -27,7 +27,7 @@ class PedidoService @Inject constructor(private val fila: FilaAdapter, private v
         val pedido = fila.buscarPedidoPorId(idPedido)
 
 
-        if (pedido.estadoPedido.podeSerAlterado()) {
+        if (!pedido.estadoPedido.podeTransitarPara(estado)) {
             val mensagem =
                 "Transição inválida: não é permitido mudar de '${pedido.estadoPedido.name}' para '${estado.name}'."
             throw ErroValidacao(mensagem)

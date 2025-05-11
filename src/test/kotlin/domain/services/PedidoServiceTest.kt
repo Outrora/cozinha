@@ -3,6 +3,7 @@ package domain.services
 import adapter.FilaAdapter
 import domain.entities.EstadoPedido
 import event.producer.PedidoProducer
+import exception.ErroValidacao
 import exception.ProdutoInvalidoException
 import helps.CriarMocksFila
 import io.mockk.MockKAnnotations
@@ -59,17 +60,17 @@ class PedidoServiceTest {
     fun `Deve editar pedido com sucesso`() {
         val pedido = CriarMocksFila.criarPedido()
 
-        pedido.estadoPedido = EstadoPedido.PEDIDO_CADASTRADO
+        pedido.estadoPedido = EstadoPedido.EM_PREPARACAO
 
         every { fila.buscarPedidoPorId(any()) } returns pedido
         justRun { producer.alterarProduto(any(), any()) }
         justRun { fila.alterarStatusPedido(any(),any()) }
 
 
-        service.editarEstado(pedido.id!!, EstadoPedido.EM_PREPARACAO)
+        service.editarEstado(pedido.id!!, EstadoPedido.FINALIZADO)
 
-        verify { fila.alterarStatusPedido(pedido.id!!, EstadoPedido.EM_PREPARACAO) }
-        verify { producer.alterarProduto(pedido.id!!, EstadoPedido.EM_PREPARACAO) }
+        verify { fila.alterarStatusPedido(pedido.id!!, EstadoPedido.FINALIZADO) }
+        verify { producer.alterarProduto(pedido.id!!, EstadoPedido.FINALIZADO) }
         verify { fila.alterarStatusPedido(any(),any()) }
     }
 
@@ -89,4 +90,46 @@ class PedidoServiceTest {
             }
 
     }
+
+
+    @Test
+    fun `Deve lancar exeção ao editar pedido`() {
+        val pedido = CriarMocksFila.criarPedido()
+
+        pedido.estadoPedido = EstadoPedido.PAGAMENTO_APROVADO
+
+        every { fila.buscarPedidoPorId(any()) } returns pedido
+        justRun { producer.alterarProduto(any(), any()) }
+        justRun { fila.alterarStatusPedido(any(),any()) }
+
+
+        expectCatching { service.editarEstado(pedido.id!!, EstadoPedido.PAGAMENTO_APROVADO) }
+            .isFailure()
+            .isA<ErroValidacao>()
+
+        verify(exactly = 0) { fila.alterarStatusPedido(pedido.id!!, EstadoPedido.EM_PREPARACAO) }
+        verify(exactly = 0) { producer.alterarProduto(pedido.id!!, EstadoPedido.EM_PREPARACAO) }
+        verify(exactly = 0) { fila.alterarStatusPedido(any(),any()) }
+    }
+
+    @Test
+    fun `Deve lancar exeção ao editar pedido quando nao pode ir para outro`() {
+        val pedido = CriarMocksFila.criarPedido()
+
+        pedido.estadoPedido = EstadoPedido.FINALIZADO
+
+        every { fila.buscarPedidoPorId(any()) } returns pedido
+        justRun { producer.alterarProduto(any(), any()) }
+        justRun { fila.alterarStatusPedido(any(),any()) }
+
+
+        expectCatching { service.editarEstado(pedido.id!!, EstadoPedido.EM_PREPARACAO) }
+            .isFailure()
+            .isA<ErroValidacao>()
+
+        verify(exactly = 0) { fila.alterarStatusPedido(pedido.id!!, EstadoPedido.EM_PREPARACAO) }
+        verify(exactly = 0) { producer.alterarProduto(pedido.id!!, EstadoPedido.EM_PREPARACAO) }
+        verify(exactly = 0) { fila.alterarStatusPedido(any(),any()) }
+    }
+
 }

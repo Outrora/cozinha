@@ -10,7 +10,7 @@ import jakarta.inject.Inject
 import rest.request.PedidoRequest
 
 @ApplicationScoped
-class PedidoController @Inject constructor(var service: PedidoService) {
+class PedidoController @Inject constructor(private var service: PedidoService) {
 
     fun cadastrarPedido(request: PedidoRequest) {
         val pedido = Pedido(EstadoPedido.PEDIDO_CADASTRADO)

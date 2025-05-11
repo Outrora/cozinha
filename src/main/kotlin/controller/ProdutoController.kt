@@ -9,7 +9,7 @@ import rest.request.ProdutoRequest
 import rest.request.toProduto
 
 @ApplicationScoped
-class ProdutoController @Inject constructor(override var service: ProdutoService) : ControllerBase<ProdutoService> {
+class ProdutoController @Inject constructor(override  var service: ProdutoService) : ControllerBase<ProdutoService> {
 
     fun cadastrarProduto(produto: ProdutoRequest) {
         service.cadastrarProduto(produto.toProduto())
