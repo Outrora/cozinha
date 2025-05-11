@@ -14,8 +14,10 @@ import jakarta.transaction.Transactional
 class ProdutoRepository : PanacheRepository<ProdutoDTO> {
 
     @Transactional
-    fun casdastrarProduto(produto: Produto) {
-        persist(produto.toDTO())
+    fun casdastrarProduto(produto: Produto): Int {
+        val dto = produto.toDTO()
+        persist(dto)
+        return dto.id!!
     }
 
     @Transactional

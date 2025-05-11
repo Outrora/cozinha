@@ -1,5 +1,6 @@
 package provider
 
+import exception.ErroValidacao
 import exception.ProdutoInvalidoException
 import exception.ProdutoNotFoundException
 import jakarta.ws.rs.core.Response
@@ -21,6 +22,10 @@ class ErrorMapper : ExceptionMapper<Exception> {
             }
 
             is ProdutoInvalidoException -> {
+                criarResponse(Status.BAD_REQUEST, exception.message!!)
+            }
+
+            is ErroValidacao -> {
                 criarResponse(Status.BAD_REQUEST, exception.message!!)
             }
 

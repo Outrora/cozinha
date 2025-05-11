@@ -5,6 +5,9 @@ import java.io.Serializable
 
 data class PedidoRequest(
 
+    @JsonProperty("id_produto")
+    var id: String,
+
     @JsonProperty("codigoCliente")
     var codigoCliente: Int? = null,
 

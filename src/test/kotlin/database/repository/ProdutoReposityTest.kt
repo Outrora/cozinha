@@ -32,11 +32,17 @@ class ProdutoReposityTest {
     @Test
     fun `Deve Cadastrar Produto Corretamente`() {
         val produto = criarProduto()
-        justRun { produtoRepository.persist(any(ProdutoDTO::class)) }
+        val dtoCapturado = slot<ProdutoDTO>()
+        every { produtoRepository.persist(capture(dtoCapturado)) } answers {
+            dtoCapturado.captured.id = 1
+        }
 
-        produtoRepository.casdastrarProduto(produto)
+        var id = produtoRepository.casdastrarProduto(produto)
 
         verify(exactly = 1) { produtoRepository.persist(any(ProdutoDTO::class)) }
+        expectThat(id)
+            .isNotNull()
+            .isEqualTo(1)
     }
 
     @Test

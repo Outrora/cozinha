@@ -30,7 +30,7 @@ class RestPedido @Inject constructor(val controller: PedidoController) {
     @PUT
     @Path("estado/{id}")
     @Description("Editar Estado do Pedido")
-    fun editarEstado(@PathParam("id") idPedido: Int, estado: EstadoPedido): Response {
+    fun editarEstado(@PathParam("id") idPedido: String, estado: EstadoPedido): Response {
         controller.editarEstado(idPedido, estado)
         return criarResponse(Response.Status.OK, "Estado do pedido editado com sucesso")
     }

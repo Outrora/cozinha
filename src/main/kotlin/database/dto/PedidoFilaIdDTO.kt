@@ -5,6 +5,6 @@ import java.io.Serializable
 
 @Embeddable
 class PedidoFilaIdDTO(
-    var pedido: Int? = null,
+    var pedido: String? = null,
     var produto: Int? = null
 ) : Serializable

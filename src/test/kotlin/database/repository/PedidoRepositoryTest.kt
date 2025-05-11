@@ -162,36 +162,58 @@ class PedidoRepositoryTest {
     @Test
     fun `Deve Alterar Estado Do Pedido Corretamente`() {
         // Given
-        val idPedido = 1
+        val idPedido = "1"
         val novoEstado = EstadoPedido.entries.toTypedArray().random()
         val pedidoDTO = CriarMocksFila.criarPedido().toDTO()
+        val queryMock = mockk<PanacheQuery<PedidoDTO>>()
 
-        every { repository.findById(idPedido.toLong()) } returns pedidoDTO
+        every { repository.find(any(), idPedido) } returns queryMock
+        every { queryMock.firstResult() } returns pedidoDTO
         justRun { repository.persist(any(PedidoDTO::class)) }
 
         // When
         repository.alterarEstadoPedido(idPedido, novoEstado)
 
         // Then
-        verify(exactly = 1) { repository.findById(idPedido.toLong()) }
+        verify(exactly = 1) { repository.find("id", idPedido) }
         verify(exactly = 1) { repository.persist(any(PedidoDTO::class)) }
     }
 
     @Test
     fun `Nao Deve Alterar Estado Do Pedido Quando Pedido Nao Encontrado`() {
         // Given
-        val idPedido = 1
+        val idPedido = "1"
         val novoEstado = EstadoPedido.entries.toTypedArray().random()
+        val queryMock = mockk<PanacheQuery<PedidoDTO>>()
 
-        every { repository.findById(idPedido.toLong()) } returns null
+        every { repository.find(any(), idPedido) } returns queryMock
+        every { queryMock.firstResult() } returns null
 
         // When/Then
         expectThrows<PedidoNotFoundException> {
             repository.alterarEstadoPedido(idPedido, novoEstado)
         }
 
-        verify(exactly = 1) { repository.findById(idPedido.toLong()) }
+        verify(exactly = 1) { repository.find("id", idPedido) }
         verify(exactly = 0) { repository.persist(any(PedidoDTO::class)) }
+    }
+
+    @Test
+    fun `Deve lançar um exeção quando o nao encotrar pedido`() {
+        // Given
+        val idPedido = "1"
+        val novoEstado = EstadoPedido.entries.toTypedArray().random()
+        val queryMock = mockk<PanacheQuery<PedidoDTO>>()
+
+        every { repository.find(any(), idPedido) } returns queryMock
+        every { queryMock.firstResult() } returns null
+
+        // When/Then
+        expectThrows<PedidoNotFoundException> {
+            repository.buscarPedidoPorId(idPedido)
+        }
+
+        verify(exactly = 1) { repository.find("id", idPedido) }
     }
 
 

@@ -55,7 +55,7 @@ class RestPedidoTest {
     fun `Deve editar pedido corretamente`() {
         justRun { controller.editarEstado(any(), any()) }
 
-        val response = restPedido.editarEstado(1, EstadoPedido.EM_PREPARACAO)
+        val response = restPedido.editarEstado("1", EstadoPedido.EM_PREPARACAO)
 
         expectThat(response)
             .isNotNull()

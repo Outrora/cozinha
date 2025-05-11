@@ -1,6 +1,8 @@
 package it.produto
 
+import config.KafkaTestResourceLifecycleManager
 import helps.CriarMocksProduto
+import io.quarkus.test.common.QuarkusTestResource
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
@@ -8,6 +10,7 @@ import org.junit.jupiter.api.Test
 import java.math.BigDecimal
 
 @QuarkusTest
+@QuarkusTestResource(KafkaTestResourceLifecycleManager::class)
 class InserirProdutoTt {
 
     @Test

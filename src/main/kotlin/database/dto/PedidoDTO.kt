@@ -9,8 +9,7 @@ import java.time.LocalDateTime
 class PedidoDTO {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int? = null;
+    var id: String? = null
 
     lateinit var dataCriacao: LocalDateTime
 
@@ -18,7 +17,7 @@ class PedidoDTO {
     var codigoCliente: Int? = null
 
     @OneToMany(mappedBy = "pedido", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
-    var produtos: List<PedidoProdutoDTO> = mutableListOf();
+    var produtos: List<PedidoProdutoDTO> = mutableListOf()
 
     @Enumerated(EnumType.STRING)
     lateinit var estadoPedido: EstadoPedido
@@ -30,7 +29,7 @@ class PedidoDTO {
         estadoPedido: EstadoPedido,
         codigoCliente: Int?,
         dataCriacao: LocalDateTime,
-        id: Int?
+        id: String?
     ) {
         this.produtos = produtos
         this.estadoPedido = estadoPedido

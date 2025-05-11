@@ -35,6 +35,7 @@ class FilaBancoPostgressTest {
         filaBancoPostgress = FilaBancoPostgress(pedidoRepository);
     }
 
+
     @Test
     fun `Deve Cadastrar Pedido Corretamente`() {
         val pedido = CriarMocksFila.criarPedido()
@@ -183,7 +184,7 @@ class FilaBancoPostgressTest {
 
     @Test
     fun `Deve Alterar Status Pedido`() {
-        val idPedido = 1
+        val idPedido = "1"
         val estado = EstadoPedido.entries.toTypedArray().random()
 
         justRun {

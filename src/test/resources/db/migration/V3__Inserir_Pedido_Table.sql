@@ -1,13 +1,13 @@
 CREATE TABLE PEDIDO (
-    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    id VARCHAR(200) PRIMARY KEY,
     codigocliente INTEGER NOT NULL,
     datacriacao TIMESTAMP NOT NULL,
     estadopedido VARCHAR(20) NOT NULL,
-    CONSTRAINT check_estado CHECK (estadopedido IN ('PENDENTE', 'EM_PREPARACAO', 'PRONTO', 'RETIRADO', 'CANCELADO'))
+    CONSTRAINT check_estado CHECK (estadopedido IN ('FINALIZADO', ' CANCELADO', 'EM_PREPARACAO', 'PAGAMENTO_APROVADO', 'PAGAMENTO_RECUSADO','PEDIDO_CADASTRADO'))
 );
 
 CREATE TABLE pedido_produto (
-    pedido_id INTEGER NOT NULL,
+    pedido_id VARCHAR(200) NOT NULL,
     produto_id INTEGER NOT NULL,
     quantidade INTEGER NOT NULL,
     FOREIGN KEY (pedido_id) REFERENCES PEDIDO(id),
@@ -16,18 +16,16 @@ CREATE TABLE pedido_produto (
 
 
 INSERT INTO pedido (id, codigocliente, datacriacao, estadopedido)
-VALUES (1, 1, CURRENT_TIMESTAMP, 'PENDENTE');
+VALUES ('1', 1, CURRENT_TIMESTAMP, 'PEDIDO_CADASTRADO');
 
 INSERT INTO pedido (id, codigocliente, datacriacao, estadopedido)
-VALUES (2, 1, CURRENT_TIMESTAMP, 'PENDENTE');
+VALUES ('2', 1, CURRENT_TIMESTAMP, 'PAGAMENTO_APROVADO');
 
 INSERT INTO pedido (id, codigocliente, datacriacao, estadopedido)
-VALUES (3, 1, CURRENT_TIMESTAMP, 'PRONTO');
+VALUES ('3', 1, CURRENT_TIMESTAMP, 'FINALIZADO');
 
 INSERT INTO pedido_produto (pedido_id, produto_id, quantidade)
-VALUES (1, 1, 2);
+VALUES ('1', 1, 2);
 
 INSERT INTO pedido_produto (pedido_id, produto_id, quantidade)
-VALUES (1, 2, 2);
-
-ALTER TABLE PEDIDO ALTER COLUMN id RESTART WITH 4;
+VALUES ('1', 2, 2);

@@ -9,3 +9,6 @@ class ProdutoInvalidoException(messages: List<String> = listOf("Produto inválid
 
 class PedidoNotFoundException(message: String = "Pedido não encontrado") :
     RuntimeException(message)
+
+class ErroValidacao(message: String = "Erro de validação") :
+    RuntimeException(message)

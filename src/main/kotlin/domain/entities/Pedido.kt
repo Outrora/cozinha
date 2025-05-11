@@ -3,7 +3,7 @@ package domain.entities
 import java.io.Serializable
 
 data class Pedido(
-    var id: Int?,
+    var id: String?,
     var codigoCliente: Int?,
     var produtos: List<ProdutoQuantidade>,
     var horaInclusao: String,

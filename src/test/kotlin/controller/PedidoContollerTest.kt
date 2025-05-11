@@ -49,7 +49,7 @@ class PedidoContollerTest {
 
     @Test
     fun `Deve Editar Estado Pedido Corretamente`() {
-        val idPedido = (1..100).random()
+        val idPedido = (1..100).random().toString()
         val estado = EstadoPedido.entries.toTypedArray().random()
 
         justRun { pedidoService.editarEstado(any(), any()) }

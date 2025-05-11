@@ -21,7 +21,7 @@ object CriarMocksFila {
 
     fun criarPedidoDTO(): PedidoDTO {
         val pedido = PedidoDTO()
-        pedido.id = (1..1000).random()
+        pedido.id = (1..1000).random().toString()
         pedido.estadoPedido = EstadoPedido.entries.toTypedArray().random()
         pedido.produtos = List((1..15).random()) { criarPedidoProdutoDTO(pedido) }
         pedido.codigoCliente = (1..1000).random()
@@ -31,7 +31,7 @@ object CriarMocksFila {
 
     fun criarPedidoProdutoDTO(pedido: PedidoDTO): PedidoProdutoDTO {
         val id = PedidoFilaIdDTO(
-            pedido = (1..1000).random(),
+            pedido = (1..1000).random().toString(),
             produto = (1..1000).random()
         )
         val dto = PedidoProdutoDTO()
@@ -60,7 +60,7 @@ object CriarMocksFila {
         val produto: List<ProdutoQuantidade> = criarListaProdutoQuantidade()
 
         return Pedido(
-            id = (1..1000).random(),
+            id = (1..1000).random().toString(),
             codigoCliente = (1..1000).random(),
             produtos = produto,
             horaInclusao = "2023-10-01T10:00:00",
@@ -95,7 +95,8 @@ object CriarMocksFila {
         { PedidoProdutoRequest((1..10).random(), (1..10).random()) }
 
         return PedidoRequest(
-            (1..10).random(),
+            (1..10).random().toString(),
+            (1..1000).random(),
             pedidoProdutos
         )
     }

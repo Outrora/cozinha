@@ -1,31 +1,41 @@
 package domain.services
 
 import adapter.FilaAdapter
+import domain.entities.EstadoPedido
+import event.producer.PedidoProducer
 import exception.ProdutoInvalidoException
 import helps.CriarMocksFila
 import io.mockk.MockKAnnotations
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.junit5.MockKExtension
 import io.mockk.justRun
 import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import strikt.api.expectCatching
 import strikt.api.expectThat
 import strikt.assertions.isA
 import strikt.assertions.isEqualTo
 import strikt.assertions.isFailure
 
+@ExtendWith(MockKExtension::class)
 class PedidoServiceTest {
 
     @MockK
     private lateinit var fila: FilaAdapter
+
+    @MockK
+    private lateinit var producer: PedidoProducer
+
     private lateinit var service: PedidoService
 
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        service = PedidoService(fila)
+        service = PedidoService(fila, producer)
     }
 
     @Test
@@ -49,12 +59,18 @@ class PedidoServiceTest {
     fun `Deve editar pedido com sucesso`() {
         val pedido = CriarMocksFila.criarPedido()
 
-        justRun { fila.alterarStatusPedido(any(), any()) }
+        pedido.estadoPedido = EstadoPedido.PEDIDO_CADASTRADO
+
+        every { fila.buscarPedidoPorId(any()) } returns pedido
+        justRun { producer.alterarProduto(any(), any()) }
+        justRun { fila.alterarStatusPedido(any(),any()) }
 
 
-        service.editarEstado(pedido.id!!, pedido.estadoPedido)
+        service.editarEstado(pedido.id!!, EstadoPedido.EM_PREPARACAO)
 
-        verify { fila.alterarStatusPedido(pedido.id!!, pedido.estadoPedido) }
+        verify { fila.alterarStatusPedido(pedido.id!!, EstadoPedido.EM_PREPARACAO) }
+        verify { producer.alterarProduto(pedido.id!!, EstadoPedido.EM_PREPARACAO) }
+        verify { fila.alterarStatusPedido(any(),any()) }
     }
 
     @Test

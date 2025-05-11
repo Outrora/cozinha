@@ -3,16 +3,24 @@ package database.repository
 import database.dto.PedidoDTO
 import database.help.ProdutosIds
 import domain.entities.EstadoPedido
+import domain.entities.Pedido
 import exception.PedidoNotFoundException
 import exception.ProdutoInvalidoException
 import extensoras.paraLocalDateTimeFim
 import extensoras.paraLocalDateTimeInicio
+import extensoras.toPedido
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheRepository
-import jakarta.enterprise.context.RequestScoped
+import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
 
-@RequestScoped
+@ApplicationScoped
 class PedidoRepository : PanacheRepository<PedidoDTO> {
+
+    fun buscarPedidoPorId(id: String): Pedido {
+        val pedido = find("id", id).firstResult() ?: throw PedidoNotFoundException()
+
+        return pedido.toPedido()
+    }
 
     @Transactional
     fun cadastrarPedido(pedido: PedidoDTO, produtos: List<ProdutosIds>) {
@@ -20,7 +28,7 @@ class PedidoRepository : PanacheRepository<PedidoDTO> {
         cadastarProdutoPedido(pedido.id!!, produtos)
     }
 
-    private fun cadastarProdutoPedido(pedidoid: Int, produtos: List<ProdutosIds>) {
+    private fun cadastarProdutoPedido(pedidoid: String, produtos: List<ProdutosIds>) {
         val enitity = getEntityManager();
         val query = """
                 INSERT INTO pedido_produto
@@ -63,8 +71,8 @@ class PedidoRepository : PanacheRepository<PedidoDTO> {
     }
 
     @Transactional
-    fun alterarEstadoPedido(idPedido: Int, estado: EstadoPedido) {
-        val pedido = findById(idPedido.toLong())
+    fun alterarEstadoPedido(idPedido: String, estado: EstadoPedido) {
+        val pedido = find("id", idPedido).firstResult()
 
         pedido?.apply {
             pedido.estadoPedido = estado

@@ -36,6 +36,10 @@ class FilaBancoPostgress @Inject constructor(private val repository: PedidoRepos
         repository.cadastrarPedido(pedidoDTO, produtos)
     }
 
+    override fun buscarPedidoPorId(id: String): Pedido {
+        return repository.buscarPedidoPorId(id);
+    }
+
 
     override fun listarFilaPedidoHoje(): Fila {
         val dataHoje = formatarData(LocalDate.now())
@@ -55,7 +59,7 @@ class FilaBancoPostgress @Inject constructor(private val repository: PedidoRepos
         return criarFila(pedidos, dataFormatada)
     }
 
-    override fun alterarStatusPedido(idPedido: Int, status: EstadoPedido) {
+    override fun alterarStatusPedido(idPedido: String, status: EstadoPedido) {
         repository.alterarEstadoPedido(idPedido, status)
     }
 

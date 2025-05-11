@@ -3,6 +3,7 @@ package domain.services
 import database.repository.ProdutoRepository
 import domain.entities.Produto
 import domain.services.base.BaseService
+import event.producer.ProdutoProducer
 import exception.ProdutoInvalidoException
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
@@ -11,15 +12,22 @@ import java.math.BigDecimal
 @ApplicationScoped
 class ProdutoService : BaseService<ProdutoRepository> {
 
+    private val producer: ProdutoProducer;
+
     @Inject
-    constructor(repository: ProdutoRepository) {
+    constructor(repository: ProdutoRepository, produtoProducer: ProdutoProducer) {
         this.repository = repository
+        this.producer = produtoProducer
+
     }
 
 
     fun cadastrarProduto(produto: Produto) {
         validacaoDeProduto(produto)
-        repository.casdastrarProduto(produto)
+        val produtoResposta = produto.apply {
+            id = repository.casdastrarProduto(produto)
+        }
+        producer.cadastarProduto(produtoResposta)
     }
 
     fun editarProduto(produto: Produto) {

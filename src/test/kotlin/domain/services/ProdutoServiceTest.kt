@@ -3,6 +3,7 @@ package domain.services
 import database.repository.ProdutoRepository
 import domain.entities.Categoria
 import domain.entities.Produto
+import event.producer.ProdutoProducer
 import exception.ProdutoInvalidoException
 import helps.CriarMocksProduto.criarListaComProdutos
 import helps.CriarMocksProduto.criarProduto
@@ -26,6 +27,9 @@ import java.math.BigDecimal
 class ProdutoServiceTest {
 
     @MockK
+    private lateinit var produtoProducer: ProdutoProducer
+
+    @MockK
     private lateinit var produtoRepository: ProdutoRepository
 
     lateinit var produtoService: ProdutoService
@@ -33,13 +37,15 @@ class ProdutoServiceTest {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        produtoService = ProdutoService(produtoRepository)
+        produtoService = ProdutoService(produtoRepository, produtoProducer)
     }
 
     @Test
     fun `Deve cadastrar Produto Corretamente`() {
         val produto = criarProduto()
-        justRun { produtoRepository.casdastrarProduto(any(Produto::class)) }
+
+        every { produtoRepository.casdastrarProduto(any(Produto::class)) } returns 1
+        justRun { produtoProducer.cadastarProduto(any(Produto::class)) }
 
         produtoService.cadastrarProduto(produto)
 

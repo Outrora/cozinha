@@ -1,6 +1,8 @@
 package it.pedido
 
+import config.KafkaTestResourceLifecycleManager
 import domain.entities.EstadoPedido
+import io.quarkus.test.common.QuarkusTestResource
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
@@ -9,11 +11,13 @@ import rest.request.PedidoProdutoRequest
 import rest.request.PedidoRequest
 
 @QuarkusTest
+@QuarkusTestResource(KafkaTestResourceLifecycleManager::class)
 class PedidoIT {
 
     @Test
     fun `Deve cadastrar pedido corretamente`() {
         val request = PedidoRequest(
+            id = "2000",
             produtos = listOf(
                 PedidoProdutoRequest(id = 1, quantidade = 2),
                 PedidoProdutoRequest(id = 2, quantidade = 3)
@@ -34,7 +38,7 @@ class PedidoIT {
 
         given()
             .contentType(ContentType.TEXT)
-            .body(EstadoPedido.PRONTO.name)
+            .body(EstadoPedido.FINALIZADO.name)
             .`when`()
             .put("/pedido/estado/1")
             .then()
