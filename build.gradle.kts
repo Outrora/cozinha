@@ -3,6 +3,7 @@ plugins {
     java
     id("io.quarkus")
     jacoco
+    id("org.sonarqube") version "6.0.1.5171"
 }
 
 repositories {
@@ -72,11 +73,20 @@ tasks.test {
     finalizedBy(tasks.jacocoTestReport)
 }
 
+sonar {
+    properties {
+        property("sonar.projectKey", "Outrora_cozinha")
+        property("sonar.organization", "outrora")
+        property("sonar.host.url", "https://sonarcloud.io")
+    }
+}
+
 tasks.jacocoTestReport {
     dependsOn(tasks.test)
     reports {
         xml.required.set(true)
         html.required.set(true)
+        xml.outputLocation.set(layout.buildDirectory.file("reports/jacoco/test-report.xml"))
         html.outputLocation.set(layout.buildDirectory.dir("reports/jacoco"))
     }
     classDirectories.setFrom(

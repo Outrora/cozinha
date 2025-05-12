@@ -6,8 +6,7 @@ import io.cucumber.java.pt.Dado
 import io.cucumber.java.pt.Entao
 import io.cucumber.java.pt.Quando
 import io.quarkiverse.cucumber.ScenarioScope
-import io.quarkus.test.common.QuarkusTestResource
-import io.quarkus.test.junit.QuarkusTest
+
 
 
 import io.restassured.RestAssured.given
