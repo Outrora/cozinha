@@ -5,6 +5,7 @@
 ![](https://img.shields.io/badge/Amazon_AWS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)
 ![Quarkus](https://img.shields.io/badge/QUARKUS-009CAB?style=for-the-badge&logo=quarkus&logoColor=white)
 ![Kakfa](https://img.shields.io/badge/Apache_Kafka-231F20?style=for-the-badge&logo=apache-kafka&logoColor=white)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Outrora_cozinha&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Outrora_cozinha)
 
 Este projeto usa Quarkus, o Supersonic Subatomic Java Framework.
 
